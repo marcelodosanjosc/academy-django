@@ -1,87 +1,94 @@
+from rest_flex_fields import FlexFieldsModelSerializer
 from rest_framework import serializers
 
 from core import models
 
 
-class StateSerializer(serializers.ModelSerializer):
+class StateSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.State
         fields = '__all__'
 
 
-class CitySerializer(serializers.ModelSerializer):
+class CitySerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.City
         fields = '__all__'
 
+        expandable_fields = {
+            'state': ('core.StateSerializer', {
+                'fields': ['id', 'name']
+            })
+        }
 
-class ZoneSerializer(serializers.ModelSerializer):
+
+class ZoneSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Zone
         fields = '__all__'
 
 
-class DistrictSerializer(serializers.ModelSerializer):
+class DistrictSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.District
         fields = '__all__'
 
 
-class MaritalStatusSerializer(serializers.ModelSerializer):
+class MaritalStatusSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.MaritalStatus
         fields = '__all__'
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class CustomerSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Customer
         fields = '__all__'
 
 
-class BranchSerializer(serializers.ModelSerializer):
+class BranchSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Branch
         fields = '__all__'
 
 
-class DepartmentSerializer(serializers.ModelSerializer):
+class DepartmentSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Department
         fields = '__all__'
 
 
-class EmployeeSerializer(serializers.ModelSerializer):
+class EmployeeSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Employee
         fields = '__all__'
 
 
-class SaleSerializer(serializers.ModelSerializer):
+class SaleSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Sale
         fields = '__all__'
 
 
-class SaleItemSerializer(serializers.ModelSerializer):
+class SaleItemSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.SaleItem
         fields = '__all__'
 
 
-class SupplierSerializer(serializers.ModelSerializer):
+class SupplierSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Supplier
         fields = '__all__'
 
 
-class ProductGroupSerializer(serializers.ModelSerializer):
+class ProductGroupSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.ProductGroup
         fields = '__all__'
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = models.Product
         fields = '__all__'

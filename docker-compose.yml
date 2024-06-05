@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123456
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    restart: always
+    image: redis
+    ports:
+      - 6379:6379
+
+  api:
+    restart: always
+    image: sale
+    ports:
+      - 8000:8000
+    working_dir: /usr/src/app
+    command: /bin/sh -c "python -u manage.py migrate && python -u production-server.py --port=8000"
+
+  worker_default:
+    restart: always
+    image: sale
+    working_dir: /usr/src/app
+    command: /bin/sh -c "python -u -m celery -A sale worker --loglevel INFO --pool=solo -B -Q default"
+
+volumes:
+  pgdata:
+
+networks:
+  default:

@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from core import models, serializers, params_serializers, queries
+from core import models, serializers, params_serializers, queries, filters
 
 
 class StateViewSet(viewsets.ModelViewSet):
@@ -11,7 +11,7 @@ class StateViewSet(viewsets.ModelViewSet):
 
 
 class CityViewSet(viewsets.ModelViewSet):
-    queryset = models.City.objects.all()
+    queryset = models.City.objects.select_related('state').all()
     serializer_class = serializers.CitySerializer
 
 
@@ -79,6 +79,9 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = models.Employee.objects.all()
     serializer_class = serializers.EmployeeSerializer
+    filter_class = filters.EmployeeFilter
+    ordering = ('-id',)
+    ordering_fields = '__all__'
 
 
 class SaleViewSet(viewsets.ModelViewSet):
